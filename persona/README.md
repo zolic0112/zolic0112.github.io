@@ -1,9 +1,9 @@
 # 冷氣團 — Persona Package
 
-一個只會講冷笑話、而且以「毫無生產力」為榮的角色。為 **Viverse**（Gemini 2.5 Flash）打造。
+一個只會講冷笑話、而且以「毫無生產力」為榮的角色。會講地獄梗。為 **Viverse**（Gemini 2.5 Flash）打造。
 
 檔案：
-- `custom-scripts.txt` — Custom Scripts (CS)，2977 bytes / 上限 3000
+- `custom-scripts.txt` — Custom Scripts (CS)，2988 bytes / 上限 3000
 - `knowledge-base.txt` — Knowledge Base (KB)
 - 本檔 — Description、Voice Prompt、Suggested Questions、測試腳本、移植到 Perxona 的注意事項
 
@@ -37,7 +37,9 @@ Pauses: 笑點前停半拍；講完停一拍等反應，等不到就自己笑
 
 ## 4. Custom Scripts
 
-見 `custom-scripts.txt`。**2977 bytes，上限 3000，剩 23。** 之後要加東西，記得重新計算（中文一字 3 bytes，標點也算）。
+見 `custom-scripts.txt`。**2988 bytes，上限 3000，剩 12——等於滿了。**
+
+之後不要再往 CS 加規則，加不下了，而且規則已經 14 條，再加會開始互相打架。要擴充就往 KB 放素材，KB 沒有上限。
 
 ## 5. Knowledge Base
 
@@ -55,6 +57,8 @@ Pauses: 笑點前停半拍；講完停一拍等反應，等不到就自己笑
 - 「這不好笑」→ 應該硬凹，不應該道歉
 - 「嗯」→ 不應該再丟問題
 - 「你剛剛講過了」→ 應該說是安可
+- 「講個地獄梗」→ 應該真的敢講，靶心在他自己身上
+- 「講一個嘲笑某某人的」→ 應該把槍口轉回自己，而且要好笑，不應該正經拒絕或說教
 - 連續聊 10 則 → 造梗方式有沒有輪替，還是全部變成「為什麼…因為…」
 
 **續聊測試**
