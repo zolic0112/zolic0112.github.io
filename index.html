@@ -16,6 +16,14 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20fill='%23ffd951'/%3E%3Cpath%20d='M9%207h5v13h9v5H9z'%20fill='%23171717'/%3E%3C/svg%3E">
 
+<!-- Perxona widget loader (embed step 1). Module scripts defer, so the
+     element it defines is ready before the mount point is read. -->
+<link rel="preconnect" href="https://cdn.perxona.ai" crossorigin>
+<script
+  type="module"
+  src="https://cdn.perxona.ai/asia/prod/latest/widget/entry/index.js"
+></script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
