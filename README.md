@@ -15,9 +15,14 @@ Settings → Pages → Source 選 `Deploy from a branch`，分支選這個 branc
 
 ## 活動當天：接上 Perxona avatar
 
-`index.html` 裡搜尋 `PERXONA MOUNT POINT`。把 `.avatar-stage` 內的東西換成 Perxona 的嵌入碼即可，保留外層 `.c-avatar` 卡片與 `id="avatar"`，版面不會跑掉。
+`index.html` 裡搜尋 `PERXONA MOUNT POINT`，把 `<p class="avatar-pending">` 那行換成 Perxona 的嵌入碼。
 
-在那之前，那個位置放的是一個佔位角色：眼睛會跟著滑鼠、點下去會抖一下並講一則冷笑話。台詞在檔案最下方的 `JOKES` 和 `IDLE` 兩個陣列裡，直接改字串就好。
+- 嵌入碼如果是 `<script>` 而且要指定容器，容器 id 是 `perxona-mount`
+- 如果是 `<iframe>`，直接貼進去就好，CSS 已經會把 iframe 撐滿整張卡
+
+保留外層 `.c-avatar` 卡片與 `id="avatar"`，版面和導覽列連結才不會跑掉。
+
+角色的人格設定在 `persona/`，那是給 Perxona 後台用的，跟這裡的嵌入無關。
 
 ## 還要填的佔位內容
 

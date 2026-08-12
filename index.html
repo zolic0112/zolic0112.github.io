@@ -78,12 +78,6 @@ h1, h2, h3 { text-wrap: balance; }
 }
 .skip:focus { left: 12px; top: 12px; }
 
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip-path: inset(50%); white-space: nowrap;
-}
-
 .wrap { width: min(100% - clamp(24px, 6vw, 72px), var(--max)); margin-inline: auto; }
 
 /* ---------- shared card ---------- */
@@ -148,44 +142,21 @@ h1, h2, h3 { text-wrap: balance; }
 
 .c-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; overflow-wrap: anywhere; }
 
-/* ---------- avatar ---------- */
+/* ---------- avatar mount ---------- */
 .avatar-stage {
   position: relative; min-height: 320px;
   display: grid; place-items: center;
-  background:
-    repeating-linear-gradient(45deg, rgba(23,23,23,.05) 0 2px, transparent 2px 9px),
-    linear-gradient(160deg, #eaf2ff 0%, #fef7e4 100%);
+  background: linear-gradient(160deg, #eaf2ff 0%, #fef7e4 100%);
 }
-.bubble {
-  position: absolute; top: 14px; left: 14px; right: 14px;
-  border: var(--edge); background: var(--paper);
-  box-shadow: 5px 5px 0 var(--ink);
-  padding: 11px 14px; font-size: 15px; line-height: 1.4; font-weight: 700;
-  opacity: 0; transition: opacity .28s ease;
-}
-.bubble.is-on { opacity: 1; }
-.bubble:empty { display: none; }
+/* Whatever the Perxona embed renders should fill the cell. */
+.avatar-stage > * { max-width: 100%; }
+.avatar-stage iframe,
+.avatar-stage canvas { width: 100%; height: 100%; border: 0; display: block; }
 
-.poke {
-  appearance: none; -webkit-appearance: none;
-  border: 0; background: none; padding: 0; margin: 0;
-  cursor: pointer; width: min(74%, 230px);
-  transform-origin: 50% 100%;
-}
-.poke svg { width: 100%; height: auto; }
-.poke:active { transform: scale(.97); }
-.poke.is-poked { animation: squish .45s cubic-bezier(.2,1.3,.4,1); }
-@keyframes squish {
-  0%   { transform: scale(1, 1); }
-  35%  { transform: scale(1.1, .86); }
-  70%  { transform: scale(.95, 1.07); }
-  100% { transform: scale(1, 1); }
-}
-.pupil { transform: translate(var(--px, 0px), var(--py, 0px)); transition: transform .12s linear; }
-.avatar-note {
-  position: absolute; left: 14px; right: 14px; bottom: 12px; margin: 0;
+.avatar-pending {
+  margin: 0; padding: 20px; text-align: center;
   font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); text-align: center;
+  color: var(--muted);
 }
 
 /* ---------- generic section ---------- */
@@ -285,7 +256,6 @@ h1, h2, h3 { text-wrap: balance; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
-  .pupil { transform: none !important; }
   .c-name, .c-ticket, .c-links, .tag, .sticker { rotate: none; }
 }
 </style>
@@ -315,33 +285,19 @@ h1, h2, h3 { text-wrap: balance; }
 
     <!-- ─────────────────────────────────────────────────────────────
          PERXONA MOUNT POINT
-         On workshop day: replace everything inside .avatar-stage with
-         the Perxona embed snippet. Keep the .c-avatar card and the
-         #avatar id so the layout and any links keep working.
-         Until then this is the CSS/SVG placeholder for the
-         `hero-primary` asset slot — deliberately not a file request.
+         Paste the Perxona embed snippet inside .avatar-stage, replacing
+         the <p class="avatar-pending"> line below.
+
+         If the snippet is a <script> tag that targets a container by id,
+         point it at id="perxona-mount". If it is an <iframe>, drop it in
+         as-is — the CSS above already stretches iframes to fill the card.
+
+         Keep the .c-avatar card and id="avatar" so the layout and the
+         nav link keep working.
          ───────────────────────────────────────────────────────────── -->
     <div class="card c-avatar" id="avatar">
-      <div class="avatar-stage">
-        <p class="bubble" id="bubble" aria-hidden="true"></p>
-
-        <button class="poke" id="poke" type="button" aria-label="Poke the avatar for a bad joke">
-          <svg viewBox="0 0 200 210" role="img" aria-label="A round cartoon character with big eyes">
-            <ellipse cx="100" cy="196" rx="58" ry="9" fill="#171717" opacity=".18"/>
-            <path d="M40 96a60 60 0 0 1 120 0v52a34 34 0 0 1-34 34H74a34 34 0 0 1-34-34z" fill="#ffd951" stroke="#171717" stroke-width="5"/>
-            <circle cx="100" cy="72" r="56" fill="#fffdf7" stroke="#171717" stroke-width="5"/>
-            <path d="M100 16v-14M100 2a7 7 0 1 1 .1 0" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="78" cy="70" r="17" fill="#fff" stroke="#171717" stroke-width="4"/>
-            <circle cx="122" cy="70" r="17" fill="#fff" stroke="#171717" stroke-width="4"/>
-            <circle class="pupil" cx="78" cy="70" r="7.5" fill="#171717"/>
-            <circle class="pupil" cx="122" cy="70" r="7.5" fill="#171717"/>
-            <path d="M86 98q14 13 28 0" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="58" cy="92" r="7" fill="#ff78b2" opacity=".75"/>
-            <circle cx="142" cy="92" r="7" fill="#ff78b2" opacity=".75"/>
-          </svg>
-        </button>
-
-        <p class="avatar-note">Perxona avatar mounts here</p>
+      <div class="avatar-stage" id="perxona-mount">
+        <p class="avatar-pending">Avatar loading</p>
       </div>
     </div>
 
@@ -458,8 +414,6 @@ h1, h2, h3 { text-wrap: balance; }
 
 </div><!-- /.wrap -->
 
-<p class="sr-only" id="joke-live" aria-live="polite"></p>
-
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -481,92 +435,6 @@ if (!reduced && !nativeScroll) {
   document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-in'));
 }
 
-/* ============================================================
-   Placeholder avatar behaviour.
-   Swap these two arrays for your own lines — that's the whole
-   content model. Delete this block entirely once the Perxona
-   embed replaces the SVG.
-   ============================================================ */
-const JOKES = [
-  "I only work in binary. And in the other one.",
-  "I told my monitor a joke. It didn't display any emotion.",
-  "A CSS rule walks into a bar. A bar in the other room moves 3px.",
-  "I'd tell you a UDP joke, but you might not get it.",
-  "Comic Sans walks into a bar. Barman says: we don't serve your type.",
-  "There are 10 kinds of people: those who read binary, and 8 others.",
-  "Why do front-end devs eat alone? They can't join tables.",
-  "I have a joke about lazy loading. It hasn't arrived yet.",
-  "My last commit message was 'fix'. It fixed nothing."
-];
-
-const IDLE = [
-  "Still watching your cursor. No reason.",
-  "You could scroll. Or we could just stand here.",
-  "Poke me. I have nothing better to do.",
-  "This is the least productive part of the site. On purpose.",
-  "0% productivity. 100% uptime.",
-  "I'd help with the actual work, but I wasn't built for that."
-];
-
-const poke   = document.getElementById('poke');
-const bubble = document.getElementById('bubble');
-const live   = document.getElementById('joke-live');
-const pupils = document.querySelectorAll('.pupil');
-
-let bubbleTimer;
-function say(text, announce) {
-  bubble.textContent = text;
-  bubble.classList.add('is-on');
-  if (announce) live.textContent = text;
-  clearTimeout(bubbleTimer);
-  bubbleTimer = setTimeout(() => bubble.classList.remove('is-on'), 5200);
-}
-
-const pick = (list, last) => {
-  let n;
-  do { n = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && n === last);
-  return n;
-};
-
-/* poke → joke + squish */
-let lastJoke = '';
-poke.addEventListener('click', () => {
-  lastJoke = pick(JOKES, lastJoke);
-  say(lastJoke, true);
-  if (reduced) return;
-  poke.classList.remove('is-poked');
-  void poke.offsetWidth;              // restart the animation
-  poke.classList.add('is-poked');
-});
-
-if (!reduced) {
-  /* eyes follow the pointer — transform only, no layout work */
-  let frame;
-  addEventListener('pointermove', (e) => {
-    if (frame) return;
-    frame = requestAnimationFrame(() => {
-      frame = null;
-      const r = poke.getBoundingClientRect();
-      if (!r.width) return;
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height * 0.33);
-      const d  = Math.hypot(dx, dy) || 1;
-      const reach = Math.min(d, 260) / 260 * 6.5;
-      poke.style.setProperty('--px', `${(dx / d * reach).toFixed(2)}px`);
-      poke.style.setProperty('--py', `${(dy / d * reach).toFixed(2)}px`);
-    });
-  }, { passive: true });
-
-  /* idle chatter — visual only, never announced to screen readers */
-  let lastIdle = '';
-  setInterval(() => {
-    if (document.hidden || bubble.classList.contains('is-on')) return;
-    lastIdle = pick(IDLE, lastIdle);
-    say(lastIdle, false);
-  }, 9000);
-
-  say(IDLE[0], false);
-}
 </script>
 </body>
 </html>
