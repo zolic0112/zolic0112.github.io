@@ -158,14 +158,13 @@ h1, h2, h3 { text-wrap: balance; }
 }
 /* Whatever the Perxona embed renders should fill the cell. */
 .avatar-stage > * { max-width: 100%; }
+.avatar-stage sv-agent,
 .avatar-stage iframe,
 .avatar-stage canvas { width: 100%; height: 100%; border: 0; display: block; }
 
-.avatar-pending {
-  margin: 0; padding: 20px; text-align: center;
-  font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted);
-}
+/* No placeholder art here on purpose. If bubble mode floats the widget to
+   a corner instead of filling this card, the card needs real content —
+   that's a layout decision, not something to paper over with a stand-in. */
 
 /* ---------- generic section ---------- */
 .band { padding: clamp(72px, 10vw, 132px) 0 0; }
@@ -292,20 +291,20 @@ h1, h2, h3 { text-wrap: balance; }
     </div>
 
     <!-- ─────────────────────────────────────────────────────────────
-         PERXONA MOUNT POINT
-         Paste the Perxona embed snippet inside .avatar-stage, replacing
-         the <p class="avatar-pending"> line below.
-
-         If the snippet is a <script> tag that targets a container by id,
-         point it at id="perxona-mount". If it is an <iframe>, drop it in
-         as-is — the CSS above already stretches iframes to fill the card.
-
-         Keep the .c-avatar card and id="avatar" so the layout and the
-         nav link keep working.
+         PERXONA AVATAR (embed step 2; the loader is in <head>).
+         apiKey is a public client-side key — Perxona scopes it to the
+         registered domain, which is what makes it safe to ship here.
+         presentationMode="bubble" may float the widget to a corner of the
+         viewport rather than filling this card; the card carries its own
+         backdrop so it still reads as intentional if that happens.
          ───────────────────────────────────────────────────────────── -->
     <div class="card c-avatar" id="avatar">
       <div class="avatar-stage" id="perxona-mount">
-        <p class="avatar-pending">Avatar loading</p>
+        <sv-agent
+          agentProfileId="01KZTWPCN0ABMPNVG6CSX9XZND"
+          presentationMode="bubble"
+          apiKey="acf05bc8-151f-4b8f-9906-2123e461f8c1"
+        ></sv-agent>
       </div>
     </div>
 
