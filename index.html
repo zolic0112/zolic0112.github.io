@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>LiamZ — Creative &amp; Tech portfolio</title>
+<meta name="description" content="LiamZ makes creative things on the internet — content, design, and front-end experiments. Browse selected work, meet a joke-telling avatar, or say hi by email.">
+<link rel="canonical" href="https://example.com/"><!-- TODO: replace with your real URL after deploying -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="LiamZ — Creative &amp; Tech portfolio">
+<meta property="og:description" content="LiamZ makes creative things on the internet — content, design, and front-end experiments. Browse selected work, meet a joke-telling avatar, or say hi by email.">
+<meta property="og:url" content="https://example.com/">
+<!-- og:image intentionally omitted until a real 1200x630 image exists. Add it together with twitter:card. -->
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20fill='%23ffd951'/%3E%3Cpath%20d='M9%207h5v13h9v5H9z'%20fill='%23171717'/%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "LiamZ",
+  "url": "https://example.com/",
+  "email": "mailto:zoliczzz123@gmail.com",
+  "description": "Doing some creative stuff on internet.",
+  "knowsAbout": ["Creative & Tech", "Content", "Design"]
+}
+</script>
+
+<style>
+/* ============================================================
+   Puzzle Grid — 2 editable theme tokens: --accent-1, --accent-2
+   Every other colour is fixed by the visual system.
+   ============================================================ */
+:root {
+  --accent-1: #3a4bd8;   /* text-safe blue: 6.4:1 on paper, 6.6:1 for white text */
+  --accent-2: #ff604d;   /* warm red — always pairs with --ink text, never white */
+
+  --ink: #171717;
+  --paper: #fffdf7;
+  --bg: #f4eddf;
+  --yellow: #ffd951;
+  --green: #bce96d;
+  --pink: #ff78b2;
+  --muted: #5c564b;      /* 6.1:1 on --bg */
+
+  --edge: 2px solid var(--ink);
+  --drop: 8px 8px 0 var(--ink);
+  --max: 1220px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  overflow-x: clip;             /* rotated cards must never create a scrollbar */
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Arial, "Noto Sans TC", "PingFang TC", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { text-wrap: balance; }
+:focus-visible { outline: 3px solid var(--accent-1); outline-offset: 4px; }
+
+.skip {
+  position: absolute; left: -9999px; z-index: 100;
+  padding: 12px 20px; background: var(--ink); color: var(--paper);
+  font-weight: 800; text-decoration: none;
+}
+.skip:focus { left: 12px; top: 12px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.wrap { width: min(100% - clamp(24px, 6vw, 72px), var(--max)); margin-inline: auto; }
+
+/* ---------- shared card ---------- */
+.card {
+  position: relative;
+  border: var(--edge);
+  box-shadow: var(--drop);
+  background: var(--paper);
+  padding: clamp(18px, 2.4vw, 26px);
+  overflow: hidden;
+}
+
+/* ---------- header ---------- */
+.site-head {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  align-items: center; justify-content: space-between;
+  padding: 20px 0 26px;
+}
+.brand { display: inline-flex; align-items: center; min-height: 44px; font-weight: 900; font-size: 20px; letter-spacing: -.04em; text-decoration: none; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 6px; }
+.site-nav a {
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: 0 14px;
+  font-size: 14px; font-weight: 800; text-decoration: none;
+  border: var(--edge); background: var(--paper);
+}
+.site-nav a.is-cta { background: var(--accent-1); color: #fff; }
+
+/* ---------- puzzle board ---------- */
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(56px, auto);   /* rows may grow — copy must never be clipped */
+  gap: 14px;
+}
+
+/* hero placement */
+.c-name   { grid-column: 1 / 7;  grid-row: 1 / 4; background: var(--yellow); rotate: -1deg; display: grid; align-content: center; }
+.c-avatar { grid-column: 7 / 13; grid-row: 1 / 6; padding: 0; background: var(--paper); display: grid; }
+.c-bio    { grid-column: 1 / 5;  grid-row: 4 / 6; display: grid; align-content: center; }
+.c-ticket { grid-column: 5 / 7;  grid-row: 4 / 6; background: var(--green); border-style: dashed; rotate: -2deg; display: grid; place-items: center; text-align: center; }
+.c-tags   { grid-column: 1 / 7;  grid-row: 6 / 8; display: grid; align-content: center; }
+.c-links  { grid-column: 7 / 13; grid-row: 6 / 8; background: var(--pink); display: grid; align-content: center; rotate: 1deg; }
+
+.c-name h1 {
+  margin: 0;
+  font-size: clamp(46px, 7.4vw, 96px);
+  line-height: .88; letter-spacing: -.07em; font-weight: 900;
+}
+.eyebrow { margin: 0 0 6px; font-size: 13px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.lede { margin: 0; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; }
+
+.c-ticket a {
+  font-weight: 900; font-size: 18px; text-decoration: none;
+  display: grid; place-items: center; min-height: 44px; padding: 0 8px;
+}
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.tag { border: var(--edge); background: var(--paper); padding: 8px 13px; font-weight: 800; font-size: 14px; }
+.tag:nth-child(2) { background: var(--accent-1); color: #fff; rotate: 2deg; }
+.tag:nth-child(3) { background: var(--yellow); rotate: -2deg; }
+
+.c-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; overflow-wrap: anywhere; }
+
+/* ---------- avatar ---------- */
+.avatar-stage {
+  position: relative; min-height: 320px;
+  display: grid; place-items: center;
+  background:
+    repeating-linear-gradient(45deg, rgba(23,23,23,.05) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, #eaf2ff 0%, #fef7e4 100%);
+}
+.bubble {
+  position: absolute; top: 14px; left: 14px; right: 14px;
+  border: var(--edge); background: var(--paper);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 11px 14px; font-size: 15px; line-height: 1.4; font-weight: 700;
+  opacity: 0; transition: opacity .28s ease;
+}
+.bubble.is-on { opacity: 1; }
+.bubble:empty { display: none; }
+
+.poke {
+  appearance: none; -webkit-appearance: none;
+  border: 0; background: none; padding: 0; margin: 0;
+  cursor: pointer; width: min(74%, 230px);
+  transform-origin: 50% 100%;
+}
+.poke svg { width: 100%; height: auto; }
+.poke:active { transform: scale(.97); }
+.poke.is-poked { animation: squish .45s cubic-bezier(.2,1.3,.4,1); }
+@keyframes squish {
+  0%   { transform: scale(1, 1); }
+  35%  { transform: scale(1.1, .86); }
+  70%  { transform: scale(.95, 1.07); }
+  100% { transform: scale(1, 1); }
+}
+.pupil { transform: translate(var(--px, 0px), var(--py, 0px)); transition: transform .12s linear; }
+.avatar-note {
+  position: absolute; left: 14px; right: 14px; bottom: 12px; margin: 0;
+  font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); text-align: center;
+}
+
+/* ---------- generic section ---------- */
+.band { padding: clamp(72px, 10vw, 132px) 0 0; }
+.band-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; margin-bottom: 26px; }
+.band h2 { margin: 0; font-size: clamp(38px, 6.4vw, 78px); line-height: .92; letter-spacing: -.06em; font-weight: 900; }
+.band-note { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- work ---------- */
+.w-1 { grid-column: 1 / 8;  grid-row: 1 / 3; }
+.w-2 { grid-column: 8 / 13; grid-row: 1 / 2; background: var(--accent-2); }
+.w-3 { grid-column: 8 / 13; grid-row: 2 / 3; }
+.w-4 { grid-column: 1 / 8;  grid-row: 3 / 4; }
+.w-5 { grid-column: 8 / 13; grid-row: 3 / 4; background: var(--yellow); overflow: visible; }
+
+.work-card { display: grid; grid-template-rows: auto 1fr; gap: 14px; align-content: start; }
+
+/* the featured cell is the tall one — its visual fills whatever height it gets */
+.work-card.w-1 { grid-template-rows: minmax(240px, 1fr) auto; align-content: stretch; }
+.work-card.w-1 .ph { aspect-ratio: auto; height: 100%; max-height: none; }
+.work-card h3 { margin: 0; font-size: clamp(20px, 2.2vw, 28px); letter-spacing: -.03em; line-height: 1.1; }
+.work-card p { margin: 0; font-size: 15px; }
+.work-meta { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+
+/* CSS placeholders for the manifest's empty image slots — no file requests */
+.ph { border: var(--edge); background-color: #d9d3c6; max-height: 400px; }
+.ph-1 { aspect-ratio: 16 / 10; background-image: linear-gradient(140deg, var(--accent-1) 0 34%, var(--yellow) 34% 58%, var(--ink) 58%); }
+.ph-2 { aspect-ratio: 4 / 5;   background-image: linear-gradient(200deg, var(--paper) 0 40%, var(--ink) 40% 66%, var(--green) 66%); }
+.ph-3 { aspect-ratio: 16 / 10; background-image: linear-gradient(115deg, var(--pink) 0 30%, var(--paper) 30% 55%, var(--accent-1) 55%); }
+
+.sticker {
+  position: absolute; right: -10px; top: -12px;
+  width: 78px; height: 78px; border: 3px solid var(--ink); border-radius: 50%;
+  background: var(--green); rotate: 12deg;
+  display: grid; place-items: center; text-align: center;
+  font-size: 12px; font-weight: 900; line-height: 1.1;
+}
+
+/* ---------- about ---------- */
+.about-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 14px; }
+.about-grid p { margin: 0 0 14px; }
+.about-grid p:last-child { margin-bottom: 0; }
+.a-side { background: var(--accent-1); color: #fff; display: grid; align-content: center; gap: 10px; }
+.a-side dt { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+.a-side dd { margin: 0 0 12px; font-size: 19px; font-weight: 800; }
+.a-side dd:last-child { margin-bottom: 0; }
+
+/* ---------- contact ---------- */
+.contact-card {
+  background: var(--yellow);
+  text-align: center;
+  padding: clamp(34px, 6vw, 64px) clamp(20px, 4vw, 48px);
+}
+.contact-card h2 { margin: 0 0 12px; font-size: clamp(40px, 7vw, 84px); line-height: .9; letter-spacing: -.06em; font-weight: 900; }
+.contact-card p { margin: 0 auto 26px; max-width: 44ch; }
+.mail-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 56px; padding: 0 26px;
+  border: var(--edge); box-shadow: 6px 6px 0 var(--ink);
+  background: var(--ink); color: var(--paper);
+  font-size: clamp(17px, 2vw, 22px); font-weight: 900; text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- footer ---------- */
+.site-foot {
+  margin-top: clamp(72px, 10vw, 120px);
+  padding: 26px 0 34px;
+  border-top: var(--edge);
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;
+  font-size: 14px; color: var(--muted);
+}
+
+/* ---------- reveal ---------- */
+[data-reveal] { opacity: 0; transform: translateY(14px); }
+[data-reveal].is-in {
+  opacity: 1; transform: none;
+  transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
+}
+@supports (animation-timeline: view()) {
+  [data-reveal] { opacity: 1; transform: none; animation: reveal linear both; animation-timeline: view(); animation-range: entry 8% cover 30%; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(14px); } }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .board { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .board > * { grid-column: 1 / -1 !important; grid-row: auto !important; }
+  .c-avatar { min-height: 340px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .site-head { padding-top: 16px; }
+  .sticker { right: 8px; top: -8px; width: 64px; height: 64px; font-size: 10px; }
+  .w-5 h3 { padding-right: 72px; }      /* keep the heading clear of the sticker */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .pupil { transform: none !important; }
+  .c-name, .c-ticket, .c-links, .tag, .sticker { rotate: none; }
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="wrap">
+
+<header class="site-head">
+  <a class="brand" href="#main">LiamZ</a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a class="is-cta" href="#contact">Say hi</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section id="hero" class="board" aria-labelledby="hero-name">
+    <div class="card c-name">
+      <h1 id="hero-name">LiamZ</h1>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         PERXONA MOUNT POINT
+         On workshop day: replace everything inside .avatar-stage with
+         the Perxona embed snippet. Keep the .c-avatar card and the
+         #avatar id so the layout and any links keep working.
+         Until then this is the CSS/SVG placeholder for the
+         `hero-primary` asset slot — deliberately not a file request.
+         ───────────────────────────────────────────────────────────── -->
+    <div class="card c-avatar" id="avatar">
+      <div class="avatar-stage">
+        <p class="bubble" id="bubble" aria-hidden="true"></p>
+
+        <button class="poke" id="poke" type="button" aria-label="Poke the avatar for a bad joke">
+          <svg viewBox="0 0 200 210" role="img" aria-label="A round cartoon character with big eyes">
+            <ellipse cx="100" cy="196" rx="58" ry="9" fill="#171717" opacity=".18"/>
+            <path d="M40 96a60 60 0 0 1 120 0v52a34 34 0 0 1-34 34H74a34 34 0 0 1-34-34z" fill="#ffd951" stroke="#171717" stroke-width="5"/>
+            <circle cx="100" cy="72" r="56" fill="#fffdf7" stroke="#171717" stroke-width="5"/>
+            <path d="M100 16v-14M100 2a7 7 0 1 1 .1 0" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="78" cy="70" r="17" fill="#fff" stroke="#171717" stroke-width="4"/>
+            <circle cx="122" cy="70" r="17" fill="#fff" stroke="#171717" stroke-width="4"/>
+            <circle class="pupil" cx="78" cy="70" r="7.5" fill="#171717"/>
+            <circle class="pupil" cx="122" cy="70" r="7.5" fill="#171717"/>
+            <path d="M86 98q14 13 28 0" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="58" cy="92" r="7" fill="#ff78b2" opacity=".75"/>
+            <circle cx="142" cy="92" r="7" fill="#ff78b2" opacity=".75"/>
+          </svg>
+        </button>
+
+        <p class="avatar-note">Perxona avatar mounts here</p>
+      </div>
+    </div>
+
+    <div class="card c-bio">
+      <p class="eyebrow">Creative &amp; Tech</p>
+      <p class="lede">Doing some creative stuff on internet.</p>
+    </div>
+
+    <div class="card c-ticket">
+      <a href="#contact">Say hi →</a>
+    </div>
+
+    <div class="card c-tags">
+      <ul class="tag-row">
+        <li class="tag">Creative&amp;Tech</li>
+        <li class="tag">Content</li>
+        <li class="tag">Design</li>
+      </ul>
+    </div>
+
+    <div class="card c-links">
+      <p class="eyebrow">Email</p>
+      <a href="mailto:zoliczzz123@gmail.com">zoliczzz123@gmail.com</a>
+      <!-- Add real profile links here when you have them, e.g.
+           <a href="https://github.com/…" rel="noopener noreferrer">GitHub</a> -->
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section id="work" class="band" aria-labelledby="work-h">
+    <div class="band-head">
+      <h2 id="work-h">What I've been making</h2>
+      <p class="band-note">Selected · 3 pieces</p>
+    </div>
+
+    <div class="board">
+      <article class="card work-card w-1" data-reveal>
+        <div class="ph ph-1" role="img" aria-label="Placeholder image for the first project"></div>
+        <div>
+          <p class="work-meta">[Year] · [Role]</p>
+          <h3>[Project title 1]</h3>
+          <p>[One or two sentences: what it was, what you did, what changed because of it.]</p>
+        </div>
+      </article>
+
+      <article class="card work-card w-2" data-reveal>
+        <p class="work-meta">Now</p>
+        <h3>[What you're working on right now]</h3>
+      </article>
+
+      <article class="card work-card w-3" data-reveal>
+        <div class="ph ph-2" role="img" aria-label="Placeholder image for the second project"></div>
+        <div>
+          <p class="work-meta">[Year] · [Role]</p>
+          <h3>[Project title 2]</h3>
+        </div>
+      </article>
+
+      <article class="card work-card w-4" data-reveal>
+        <div class="ph ph-3" role="img" aria-label="Placeholder image for the third project"></div>
+        <div>
+          <p class="work-meta">[Year] · [Role]</p>
+          <h3>[Project title 3]</h3>
+          <p>[One or two sentences about this one.]</p>
+        </div>
+      </article>
+
+      <article class="card work-card w-5" data-reveal>
+        <span class="sticker" aria-hidden="true">MORE<br>SOON</span>
+        <p class="work-meta">Also</p>
+        <h3>[Anything smaller worth showing]</h3>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="band" aria-labelledby="about-h">
+    <div class="band-head">
+      <h2 id="about-h">Who's making them</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="card" data-reveal>
+        <p>Doing some creative stuff on internet. Mostly that means moving between three things that keep turning out to be the same thing: making the idea, making it look right, and making it actually run in a browser.</p>
+        <p>[Add a few sentences here — how you got into this, what kind of work you want more of, and anything a stranger would need to know before emailing you.]</p>
+      </div>
+
+      <dl class="card a-side" data-reveal>
+        <dt>Works across</dt>
+        <dd>Creative &amp; Tech</dd>
+        <dt>Also</dt>
+        <dd>Content · Design</dd>
+        <dt>Based in</dt>
+        <dd>[City]</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="band" aria-labelledby="contact-h">
+    <div class="card contact-card" data-reveal>
+      <h2 id="contact-h">Say hi</h2>
+      <p>Work, collaboration, or just to tell me the avatar's jokes are bad. Email is the fastest way.</p>
+      <a class="mail-btn" href="mailto:zoliczzz123@gmail.com">zoliczzz123@gmail.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>© <span id="year"></span> LiamZ</p>
+  <p>Built at the Perxona AI Avatar Builder Workshop</p>
+</footer>
+
+</div><!-- /.wrap -->
+
+<p class="sr-only" id="joke-live" aria-live="polite"></p>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const nativeScroll = CSS.supports('animation-timeline: view()');
+
+/* ---- reveal on scroll: native first, observer fallback ---- */
+if (!reduced && !nativeScroll) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      entry.target.style.transitionDelay = `${Math.min(i, 6) * 60}ms`;
+      entry.target.classList.add('is-in');
+      io.unobserve(entry.target);
+    });
+  }, { threshold: .15, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-in'));
+}
+
+/* ============================================================
+   Placeholder avatar behaviour.
+   Swap these two arrays for your own lines — that's the whole
+   content model. Delete this block entirely once the Perxona
+   embed replaces the SVG.
+   ============================================================ */
+const JOKES = [
+  "I only work in binary. And in the other one.",
+  "I told my monitor a joke. It didn't display any emotion.",
+  "A CSS rule walks into a bar. A bar in the other room moves 3px.",
+  "I'd tell you a UDP joke, but you might not get it.",
+  "Comic Sans walks into a bar. Barman says: we don't serve your type.",
+  "There are 10 kinds of people: those who read binary, and 8 others.",
+  "Why do front-end devs eat alone? They can't join tables.",
+  "I have a joke about lazy loading. It hasn't arrived yet.",
+  "My last commit message was 'fix'. It fixed nothing."
+];
+
+const IDLE = [
+  "Still watching your cursor. No reason.",
+  "You could scroll. Or we could just stand here.",
+  "Poke me. I have nothing better to do.",
+  "This is the least productive part of the site. On purpose.",
+  "0% productivity. 100% uptime.",
+  "I'd help with the actual work, but I wasn't built for that."
+];
+
+const poke   = document.getElementById('poke');
+const bubble = document.getElementById('bubble');
+const live   = document.getElementById('joke-live');
+const pupils = document.querySelectorAll('.pupil');
+
+let bubbleTimer;
+function say(text, announce) {
+  bubble.textContent = text;
+  bubble.classList.add('is-on');
+  if (announce) live.textContent = text;
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(() => bubble.classList.remove('is-on'), 5200);
+}
+
+const pick = (list, last) => {
+  let n;
+  do { n = list[Math.floor(Math.random() * list.length)]; } while (list.length > 1 && n === last);
+  return n;
+};
+
+/* poke → joke + squish */
+let lastJoke = '';
+poke.addEventListener('click', () => {
+  lastJoke = pick(JOKES, lastJoke);
+  say(lastJoke, true);
+  if (reduced) return;
+  poke.classList.remove('is-poked');
+  void poke.offsetWidth;              // restart the animation
+  poke.classList.add('is-poked');
+});
+
+if (!reduced) {
+  /* eyes follow the pointer — transform only, no layout work */
+  let frame;
+  addEventListener('pointermove', (e) => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = null;
+      const r = poke.getBoundingClientRect();
+      if (!r.width) return;
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height * 0.33);
+      const d  = Math.hypot(dx, dy) || 1;
+      const reach = Math.min(d, 260) / 260 * 6.5;
+      poke.style.setProperty('--px', `${(dx / d * reach).toFixed(2)}px`);
+      poke.style.setProperty('--py', `${(dy / d * reach).toFixed(2)}px`);
+    });
+  }, { passive: true });
+
+  /* idle chatter — visual only, never announced to screen readers */
+  let lastIdle = '';
+  setInterval(() => {
+    if (document.hidden || bubble.classList.contains('is-on')) return;
+    lastIdle = pick(IDLE, lastIdle);
+    say(lastIdle, false);
+  }, 9000);
+
+  say(IDLE[0], false);
+}
+</script>
+</body>
+</html>

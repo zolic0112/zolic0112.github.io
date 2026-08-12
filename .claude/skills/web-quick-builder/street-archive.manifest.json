@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "street-archive",
+  "displayName": "Street Archive",
+  "description": "A tactile street-culture system with cutouts, polaroids, notebook paper, typewriter notes, analog texture, and controlled blur.",
+  "bestFor": [
+    "creative brands",
+    "events",
+    "venues",
+    "communities",
+    "artists and educators",
+    "editorial archives"
+  ],
+  "supportedGoals": [
+    "contact",
+    "purchase",
+    "portfolio",
+    "content",
+    "information"
+  ],
+  "sectionPolicy": {
+    "required": ["hero", "footer"],
+    "allowed": [
+      "hero", "summary", "problem", "services", "features", "how", "work",
+      "proof", "content", "details", "schedule", "pricing", "faq", "about",
+      "resources", "subscribe", "contact", "cta", "footer"
+    ],
+    "optionalSectionsMayHide": true,
+    "orderByGoal": {
+      "contact": ["hero", "services", "work", "proof", "about", "contact", "footer"],
+      "purchase": ["hero", "problem", "how", "features", "pricing", "faq", "cta", "footer"],
+      "portfolio": ["hero", "work", "about", "contact", "footer"],
+      "content": ["hero", "content", "about", "subscribe", "footer"],
+      "information": ["hero", "summary", "details", "schedule", "resources", "contact", "footer"]
+    },
+    "customization": "Start with the selected goal order. Insert user-required sections at the nearest relevant decision point described in architecture.md; explicit user choices override the default. Keep hero first and footer last."
+  },
+  "editingPolicy": {
+    "textOverflow": "Rewrite content to fit limits; never shrink typography to solve overflow.",
+    "sectionOrder": "Use the selected goal order as a default, then incorporate every user-required section according to sectionPolicy.customization.",
+    "templateMayChange": "Once before implementation; afterward only when the user requests it.",
+    "factPolicy": "Normalize supplied facts but never infer verifiable claims."
+  },
+  "componentMapping": {
+    "hero": "layered collage with one sharp focal visual and controlled supporting artifacts",
+    "summaryOrFeatures": "notebook or archive spread with short typewriter annotations",
+    "collection": "contact sheet or sequential archive chapters",
+    "ctaOrContact": "stamp or note treatment with a clear conventional link or button"
+  },
+  "editableThemeTokens": {
+    "max": 1,
+    "tokens": ["accentPrimary"],
+    "contrastValidationRequired": true
+  },
+  "contentLimits": {
+    "siteName": 30,
+    "name": 24,
+    "roleOrEyebrow": 36,
+    "headline": 46,
+    "summary": 105,
+    "body": 230,
+    "ctaLabel": 24,
+    "typewriterNote": 52,
+    "shortLabels": {
+      "maxItems": 8,
+      "maxCharsEach": 16
+    },
+    "collectionItems": {
+      "maxItems": 6,
+      "title": 32,
+      "summary": 120
+    },
+    "faq": {
+      "maxItems": 6,
+      "question": 70,
+      "answer": 230
+    }
+  },
+  "assetMappingPolicy": {
+    "method": "semantic-fixed-slots",
+    "rules": [
+      "Map uploads by their stated semantic purpose, never by aesthetic preference.",
+      "Do not invent slot names.",
+      "A slot with css-placeholder fallback must render an inline CSS or SVG placeholder, not a file request.",
+      "Ask one compact confirmation only when multiple uploads have ambiguous purposes."
+    ]
+  },
+  "assetSlots": {
+    "brand-mark": {
+      "path": "assets/brand-mark.svg",
+      "purpose": "Optional brand mark",
+      "required": false,
+      "fallback": null
+    },
+    "hero-primary": {
+      "path": "assets/hero-primary.jpg",
+      "purpose": "Primary hero image, product visual, portrait, venue, or event visual",
+      "ratio": "4:5",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "black-and-white", "contrast-adjustment", "fixed-frame-treatment"]
+    },
+    "hero-cutout": {
+      "path": "assets/hero-cutout.png",
+      "purpose": "Optional transparent cutout of the primary subject",
+      "ratio": "transparent",
+      "required": false,
+      "fallbackSlot": "hero-primary",
+      "allowedProcessing": ["fixed-white-outline", "fixed-drop-offset"]
+    },
+    "hero-secondary": {
+      "path": "assets/hero-secondary.jpg",
+      "purpose": "Optional polaroid or supporting hero image",
+      "ratio": "3:4",
+      "required": false,
+      "fallback": null,
+      "allowedProcessing": ["crop", "fixed-polaroid-treatment"]
+    },
+    "item-1": {
+      "path": "assets/item-1.jpg",
+      "purpose": "First work, product, article, speaker, venue, or content visual",
+      "ratio": "3:2",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "black-and-white", "fixed-photocopy-treatment"]
+    },
+    "item-2": {
+      "path": "assets/item-2.jpg",
+      "purpose": "Second collection visual",
+      "ratio": "4:5",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "fixed-polaroid-treatment"]
+    },
+    "item-3": {
+      "path": "assets/item-3.jpg",
+      "purpose": "Third collection visual",
+      "ratio": "16:10",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "black-and-white", "fixed-white-outline"]
+    },
+    "social-share": {
+      "path": "assets/social-share.jpg",
+      "purpose": "Optional 1200 by 630 social sharing image",
+      "ratio": "40:21",
+      "required": false,
+      "fallback": null
+    },
+    "download": {
+      "path": "assets/download.pdf",
+      "purpose": "Optional real downloadable document",
+      "required": false,
+      "fallback": null
+    }
+  },
+  "lockedDesignRules": [
+    "Keep a sharp-to-blur hierarchy with one clear focal subject.",
+    "Keep collage layer count, polaroid geometry, paper treatments, and white outlines controlled.",
+    "Use typewriter text only for annotations and short metadata.",
+    "Collections use contact sheets or archive chapters rather than generic cards.",
+    "Preserve content hierarchy and accessible DOM order at every breakpoint.",
+    "Theme changes cannot reduce WCAG AA contrast."
+  ]
+}

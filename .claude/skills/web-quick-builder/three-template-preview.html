@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web Quick Builder — Visual Systems Preview</title>
+<meta name="description" content="Puzzle Grid、Bold Editorial 與 Street Archive 三種網站視覺系統的互動預覽。">
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,"Noto Sans TC","PingFang TC",sans-serif;background:#111;color:#fff}
+button{font:inherit}
+.skip{position:absolute;left:-9999px;padding:12px 18px;background:#fff;color:#111;z-index:1000}.skip:focus{left:12px;top:12px}
+:focus-visible{outline:3px solid #ffd951;outline-offset:3px}
+.toolbar{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 20px;background:rgba(12,12,12,.95);border-bottom:1px solid #333;backdrop-filter:blur(12px)}
+.title{font-size:16px;font-weight:800;margin:0}.hint{font-size:12px;color:#aaa;margin-top:3px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{min-height:44px;border:1px solid #666;background:#1b1b1b;color:#eee;border-radius:999px;padding:9px 14px;cursor:pointer}.tab.active{background:#fff;color:#111}
+.template{min-height:100dvh}.template[hidden]{display:none}
+
+/* Puzzle */
+.puzzle{--ink:#171717;--paper:#fffdf7;--blue:#4c61ff;--pink:#ff78b2;--yellow:#ffd951;--green:#bce96d;--red:#ff604d;background:#f4eddf;color:var(--ink);padding:28px}
+.puzzle-nav{display:flex;justify-content:space-between;font-size:13px;margin-bottom:24px}.puzzle-board{max-width:1220px;margin:auto;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:55px;gap:14px}
+.card{position:relative;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:22px;background:var(--paper);overflow:hidden}
+.name{grid-column:1/7;grid-row:1/4;background:var(--yellow);transform:rotate(-1deg)}.name h2{margin:0;font-size:clamp(44px,7vw,92px);line-height:.9;letter-spacing:-.07em}
+.role{grid-column:7/10;grid-row:1/2;background:var(--blue);color:white;display:grid;place-items:center;font-weight:900;transform:rotate(1.5deg)}
+.photo{grid-column:9/13;grid-row:2/8;padding:0;transform:rotate(1deg);background:linear-gradient(145deg,#ff745f 0 35%,#ffdc5b 35% 58%,#4c61ff 58%)}
+.photo:before{content:"";position:absolute;width:38%;aspect-ratio:1;border-radius:50%;background:#efbd9b;left:31%;top:16%}.photo:after{content:"";position:absolute;width:48%;height:52%;background:#161616;left:26%;bottom:0;border-radius:45% 45% 0 0}
+.bio{grid-column:1/6;grid-row:4/8}.bio p{font-size:18px;line-height:1.65;margin:0}.ticket{grid-column:6/9;grid-row:4/5;background:var(--green);display:grid;place-items:center;font-weight:900;border-style:dashed;transform:rotate(-2deg)}
+.social{grid-column:6/9;grid-row:5/8;background:var(--pink)}.social a{display:block;color:#111;font-weight:800;margin:9px 0}
+.project1{grid-column:1/8;grid-row:8/12}.project2{grid-column:8/13;grid-row:8/12;background:var(--red);color:white}
+.sticker{position:absolute;right:-8px;top:-10px;width:72px;height:72px;border:3px solid #111;border-radius:50%;background:var(--green);display:grid;place-items:center;font-weight:1000;transform:rotate(12deg)}
+.puzzle-extra{max-width:1220px;margin:100px auto 40px}.puzzle-extra h2{font-size:clamp(40px,6vw,78px);letter-spacing:-.06em;margin:0 0 26px}.labels{display:flex;flex-wrap:wrap;gap:12px}.label{border:2px solid #111;padding:10px 14px;background:#fff;font-weight:800}.label:nth-child(2n){background:var(--blue);color:#fff;transform:rotate(2deg)}.label:nth-child(3n){background:var(--yellow);transform:rotate(-2deg)}
+
+/* Bold */
+.bold{background:#f5f3ee;color:#111}.bold-nav{height:72px;padding:0 34px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #b9b4aa;font-size:13px}
+.bold-hero{max-width:1380px;margin:auto;min-height:760px;padding:64px 34px 40px;display:grid;grid-template-columns:5fr 7fr;gap:48px}.bold-photo{min-height:620px;background:radial-gradient(circle at 50% 30%,#ddb18e 0 14%,transparent 14.4%),linear-gradient(155deg,#d8d4cb 0 38%,#4a4e76 38% 62%,#111 62%)}
+.bold-copy{display:flex;flex-direction:column;justify-content:space-between}.bold .hero-heading{margin:0;font-size:clamp(70px,10vw,150px);line-height:.83;letter-spacing:-.08em}.bold-intro{max-width:620px;font-size:20px;line-height:1.6}.meta{display:flex;justify-content:space-between;color:#6f6b64;font-size:12px}
+.question{max-width:1380px;margin:auto;padding:120px 34px 150px}.question h2{font-size:clamp(52px,8vw,116px);line-height:.95;letter-spacing:-.065em;margin:0 0 34px}.question p{max-width:620px;font-size:18px;line-height:1.7}
+.float-labels{height:240px;position:relative;margin-top:45px}.float-labels span{position:absolute;font-weight:800}.float-labels span:nth-child(1){left:4%;top:16%}.float-labels span:nth-child(2){left:30%;top:70%}.float-labels span:nth-child(3){right:34%;top:12%}.float-labels span:nth-child(4){right:8%;top:62%}.float-labels span:nth-child(5){left:49%;top:42%;color:#4b50ff}
+.portfolio{overflow:hidden;padding:20px 0 65px;color:#4b50ff;font-weight:1000;font-size:clamp(130px,22vw,340px);letter-spacing:-.09em;line-height:.72;white-space:nowrap}.portfolio span{display:block;transform:translateX(-4vw)}
+.index{max-width:1380px;margin:auto;padding:0 34px 110px}.index h3{font-size:13px;letter-spacing:.16em}.index-row{display:grid;grid-template-columns:70px 1fr 100px;padding:18px 0;border-top:1px solid #aaa59c;font-size:18px}.index-row:last-child{border-bottom:1px solid #aaa59c}
+.spread{display:grid;grid-template-columns:7fr 5fr;gap:28px;padding:70px 0}.spread-img{min-height:380px;background:linear-gradient(145deg,#111 0 30%,#4b50ff 30% 58%,#e9b747 58%)}.spread-copy h3{font-size:42px;letter-spacing:-.05em;margin:0 0 20px}.meta-line{display:grid;grid-template-columns:125px 1fr;padding:12px 0;border-top:1px solid #bbb}
+
+/* Street */
+.street{background:#171717;color:#f7f4ec;font-family:"Arial Narrow",Arial,"Noto Sans TC",sans-serif}.street-cover{min-height:900px;position:relative;overflow:hidden;background:repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px),#111}
+.street-name{position:absolute;left:3vw;top:8vh;margin:0;font-size:clamp(88px,15vw,225px);font-weight:1000;line-height:.76;letter-spacing:-.09em;z-index:1}.blur-photo{position:absolute;inset:6% -7% 10% 32%;background:radial-gradient(circle at 50% 30%,#d5a07c 0 10%,transparent 10.5%),linear-gradient(135deg,#383838 0 30%,#696969 30% 55%,#111 55%);filter:blur(16px);opacity:.55;transform:scale(1.1)}
+.cutout{position:absolute;right:11%;top:18%;width:min(34vw,470px);aspect-ratio:4/5;background:radial-gradient(circle at 50% 30%,#e1af89 0 15%,transparent 15.4%),linear-gradient(160deg,#1a1a1a 0 45%,#555 45% 65%,#090909 65%);clip-path:polygon(13% 6%,84% 2%,96% 21%,89% 44%,99% 72%,82% 97%,19% 94%,4% 74%,10% 47%,1% 21%);filter:drop-shadow(10px 10px 0 #000) drop-shadow(-7px 0 0 #f7f4ec) drop-shadow(7px 0 0 #f7f4ec) drop-shadow(0 -7px 0 #f7f4ec) drop-shadow(0 7px 0 #f7f4ec);z-index:3}
+.polaroid{position:absolute;left:8%;bottom:7%;width:260px;background:#f7f4ec;color:#111;padding:14px 14px 48px;transform:rotate(-7deg);z-index:4;box-shadow:12px 14px 0 #000}.polaroid-img{aspect-ratio:3/4;background:linear-gradient(145deg,#777,#111 55%,#ddd)}.polaroid small{font-family:"Courier New",monospace;display:block;margin-top:12px}
+.note{position:absolute;left:41%;bottom:8%;width:330px;background:linear-gradient(90deg,transparent 0 38px,#e95d5d 38px 40px,transparent 40px),repeating-linear-gradient(#efe8d8 0 28px,#b9c9df 29px 30px);color:#111;padding:46px 34px 34px 58px;transform:rotate(2deg);z-index:5;font-family:"Courier New",monospace;box-shadow:10px 10px 0 #000}.stamp{position:absolute;right:4%;bottom:10%;border:4px solid #f23e32;color:#f23e32;padding:16px 20px;font-weight:1000;transform:rotate(-12deg);z-index:6}
+.street-about{min-height:720px;padding:110px 7vw;background:#e8e0cf;color:#111;display:grid;grid-template-columns:1fr 1fr;gap:70px}.street-about h2{font-size:clamp(62px,9vw,128px);line-height:.83;letter-spacing:-.08em;margin:0}.type-note{font-family:"Courier New",monospace;font-size:16px;line-height:1.8;margin-top:80px}.ghost{font-size:clamp(52px,7vw,106px);font-weight:900;filter:blur(7px);opacity:.22;margin-top:60px}
+.album{padding:90px 5vw 130px;background:#0b0b0b}.album h2{font-size:clamp(58px,9vw,128px);letter-spacing:-.08em;margin:0 0 55px}.contact-sheet{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.shot{aspect-ratio:4/5;background:linear-gradient(145deg,#ddd,#4a4a4a 42%,#111);position:relative}.shot:nth-child(2n){filter:blur(2px)}.shot:after{content:attr(data-n);position:absolute;left:10px;bottom:8px;font:12px "Courier New",monospace}.caption{display:flex;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid #555;font:13px "Courier New",monospace}
+
+@media(max-width:900px){
+.toolbar{align-items:flex-start;flex-direction:column}
+.puzzle-board{grid-template-columns:repeat(4,1fr);grid-auto-rows:auto}.name,.role,.photo,.bio,.ticket,.social,.project1,.project2{grid-column:1/-1;grid-row:auto;min-height:150px}.photo{min-height:420px}
+.bold-hero{grid-template-columns:1fr;min-height:auto}.bold-photo{min-height:500px}.float-labels{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}.float-labels span{position:static}.spread{grid-template-columns:1fr}
+.street-cover{min-height:1050px}.street-name{font-size:84px;top:5%}.cutout{width:58vw;right:8%;top:20%}.polaroid{left:7%;bottom:19%;width:200px}.note{left:18%;bottom:2%;width:70%}.stamp{right:6%;bottom:13%}.street-about{grid-template-columns:1fr}.contact-sheet{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.name,.role,.ticket,.label,.polaroid,.note,.stamp{transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#preview">跳到預覽內容</a>
+<header class="toolbar">
+  <div><h1 class="title">Web Quick Builder Visual Systems</h1><div class="hint">可直接雙擊開啟，點擊按鈕切換視覺系統</div></div>
+  <nav class="tabs" aria-label="視覺系統切換" role="tablist">
+    <button id="tab-puzzle" class="tab active" data-template="puzzle" role="tab" aria-selected="true" aria-controls="puzzle">Puzzle Grid</button>
+    <button id="tab-bold" class="tab" data-template="bold" role="tab" aria-selected="false" aria-controls="bold">Bold Editorial</button>
+    <button id="tab-street" class="tab" data-template="street" role="tab" aria-selected="false" aria-controls="street">Street Archive</button>
+  </nav>
+</header>
+
+<main id="preview">
+<section id="puzzle" class="template puzzle" role="tabpanel" aria-labelledby="tab-puzzle">
+  <div class="puzzle-nav"><b>CHEN YU-CHING</b><span>ABOUT / WORK / CONTACT</span></div>
+  <div class="puzzle-board">
+    <article class="card name"><span class="sticker">NEW</span><h2>嗨，我是<br>陳予晴</h2></article>
+    <div class="card role">INTERACTION DESIGN STUDENT</div>
+    <div class="card photo" role="img" aria-label="Puzzle Grid 人像預留位置"></div>
+    <article class="card bio"><p>正在學習 UI、前端開發與互動設計，喜歡把混亂資訊整理成清楚、能被理解的使用體驗。</p></article>
+    <div class="card ticket">TAIPEI / AVAILABLE</div>
+    <article class="card social"><strong>FIND ME</strong><a href="https://instagram.com/" rel="noopener noreferrer">Instagram ↗</a><a href="https://github.com/" rel="noopener noreferrer">GitHub ↗</a><a href="mailto:hello@example.com">Email ↗</a></article>
+    <article class="card project1"><small>PROJECT 01</small><h3 style="font-size:40px">校園資訊整理專題</h3><p>重新整理校內常用資訊，讓第一次使用的同學也能快速找到入口。</p></article>
+    <article class="card project2"><small>PROJECT 02</small><h3 style="font-size:36px">閱讀紀錄網站</h3><p>用簡單網頁記錄閱讀內容與每週想法。</p></article>
+  </div>
+  <section class="puzzle-extra"><h2>很多小東西，<br>拼成現在的我。</h2><div class="labels"><span class="label">UI Design</span><span class="label">Frontend</span><span class="label">Learning</span><span class="label">Research</span><span class="label">Visual Notes</span><span class="label">Collaboration</span></div></section>
+</section>
+
+<section id="bold" class="template bold" role="tabpanel" aria-labelledby="tab-bold" hidden>
+  <div class="bold-nav"><b>LIN YU-AN / PRODUCT ENGINEER</b><span>ABOUT&nbsp;&nbsp;WORK&nbsp;&nbsp;CONTACT</span></div>
+  <div class="bold-hero">
+    <div class="bold-photo" role="img" aria-label="Bold Editorial 主視覺預留位置"></div>
+    <div class="bold-copy">
+      <div><h2 class="hero-heading">你好，<br>我是林予安</h2><p class="bold-intro">把複雜系統，整理成使用者真正能理解的產品。專注於前端系統、AI workflow 與跨部門產品協作。</p></div>
+      <div class="meta"><span>TAIPEI / 2026</span><span>HELLO@EXAMPLE.COM</span></div>
+    </div>
+  </div>
+  <section class="question"><h2>我在做什麼？<br>也是我真正喜歡做的事。</h2><p>我喜歡從混亂的需求裡找出結構，讓設計、工程與商業目標能在同一個產品裡對齊。</p><div class="float-labels"><span>前端開發</span><span>產品策略</span><span>使用者研究</span><span>系統設計</span><span>AI WORKFLOW</span></div></section>
+  <div class="portfolio"><span>PORTFOLIO</span></div>
+  <section class="index">
+    <h3>PROJECT INDEX</h3>
+    <div class="index-row"><span>01</span><strong>智慧客服工作台</strong><span>2026</span></div>
+    <div class="index-row"><span>02</span><strong>團隊知識搜尋</strong><span>2025</span></div>
+    <div class="index-row"><span>03</span><strong>個人學習追蹤器</strong><span>2025</span></div>
+    <article class="spread"><div class="spread-img" role="img" aria-label="專案圖片預留位置"></div><div class="spread-copy"><h3>智慧客服工作台</h3><p>整合客服資訊與 AI 建議，縮短重複查找與回覆時間。</p><div class="meta-line"><b>ROLE</b><span>Product Engineer</span></div><div class="meta-line"><b>YEAR</b><span>2026</span></div><div class="meta-line"><b>CONTRIBUTION</b><span>UI System / Workflow</span></div></div></article>
+  </section>
+</section>
+
+<section id="street" class="template street" role="tabpanel" aria-labelledby="tab-street" hidden>
+  <section class="street-cover">
+    <h2 class="street-name">SHEN<br>MU-QING</h2>
+    <div class="blur-photo" aria-hidden="true"></div>
+    <div class="cutout" role="img" aria-label="Street Archive 主體剪影預留位置"></div>
+    <figure class="polaroid"><div class="polaroid-img" role="img" aria-label="拍立得圖片預留位置"></div><figcaption><small>SUMMER / TAIPEI / 2026</small></figcaption></figure>
+    <article class="note"><strong>CREATOR & EDUCATOR</strong><p>用清楚、有趣的方式，讓學習變成每天都願意開始的事。</p></article>
+    <div class="stamp">ARCHIVE 03</div>
+  </section>
+  <section class="street-about">
+    <div><h2>收集片段，<br>留下方法。</h2><div class="ghost">PROCESS / MEMORY / LEARNING</div></div>
+    <div class="type-note"><p>這裡不是一份完美履歷，而是一冊持續更新的工作與學習紀錄。</p><p>我把課程、社群、閱讀與創作，整理成可重複使用的方法。</p><p>TYPE NOTE 014 — KEEP IT CLEAR, KEEP IT HUMAN.</p></div>
+  </section>
+  <section class="album"><h2>CONTACT<br>SHEET 01</h2><div class="contact-sheet"><div class="shot" data-n="01"></div><div class="shot" data-n="02"></div><div class="shot" data-n="03"></div><div class="shot" data-n="04"></div></div><div class="caption"><span>線上微型課程 / LEARNING SYSTEM</span><span>2026</span></div></section>
+</section>
+</main>
+<footer class="toolbar"><small>Web Quick Builder visual reference · <span id="year"></span></small></footer>
+
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+const tabs=[...document.querySelectorAll('.tab')];
+const sections=[...document.querySelectorAll('.template')];
+function selectTab(tab){
+  const id=tab.dataset.template;
+  tabs.forEach(item=>{
+    const selected=item===tab;
+    item.classList.toggle('active',selected);
+    item.setAttribute('aria-selected',String(selected));
+    item.tabIndex=selected?0:-1;
+  });
+  sections.forEach(section=>{section.hidden=section.id!==id});
+  window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>selectTab(tab));
+  tab.addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    event.preventDefault();
+    const current=tabs.indexOf(tab);
+    const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:
+      (current+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  });
+});
+tabs.forEach((tab,index)=>{tab.tabIndex=index===0?0:-1});
+</script>
+</body>
+</html>

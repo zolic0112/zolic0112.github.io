@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "bold-editorial",
+  "displayName": "Bold Editorial",
+  "description": "A flat editorial system with oversized typography, strict whitespace, indexes, and magazine-like feature spreads for many kinds of sites.",
+  "bestFor": [
+    "products",
+    "professional services",
+    "organizations",
+    "portfolios",
+    "conferences",
+    "publications"
+  ],
+  "supportedGoals": [
+    "contact",
+    "purchase",
+    "portfolio",
+    "content",
+    "information"
+  ],
+  "sectionPolicy": {
+    "required": ["hero", "footer"],
+    "allowed": [
+      "hero", "summary", "problem", "services", "features", "how", "work",
+      "proof", "content", "details", "schedule", "pricing", "faq", "about",
+      "resources", "subscribe", "contact", "cta", "footer"
+    ],
+    "optionalSectionsMayHide": true,
+    "orderByGoal": {
+      "contact": ["hero", "services", "work", "proof", "about", "contact", "footer"],
+      "purchase": ["hero", "problem", "how", "features", "pricing", "faq", "cta", "footer"],
+      "portfolio": ["hero", "work", "about", "contact", "footer"],
+      "content": ["hero", "content", "about", "subscribe", "footer"],
+      "information": ["hero", "summary", "details", "schedule", "resources", "contact", "footer"]
+    },
+    "customization": "Start with the selected goal order. Insert user-required sections at the nearest relevant decision point described in architecture.md; explicit user choices override the default. Keep hero first and footer last."
+  },
+  "editingPolicy": {
+    "textOverflow": "Rewrite content to fit limits; never shrink typography to solve overflow.",
+    "sectionOrder": "Use the selected goal order as a default, then incorporate every user-required section according to sectionPolicy.customization.",
+    "templateMayChange": "Once before implementation; afterward only when the user requests it.",
+    "factPolicy": "Normalize supplied facts but never infer verifiable claims."
+  },
+  "componentMapping": {
+    "hero": "image-left or artifact-left split with oversized headline",
+    "summaryOrFeatures": "large question heading with plain floating labels",
+    "collection": "numbered index followed by one or more editorial spreads",
+    "ctaOrContact": "large typographic closing statement with one primary action"
+  },
+  "editableThemeTokens": {
+    "max": 1,
+    "tokens": ["accentPrimary"],
+    "contrastValidationRequired": true
+  },
+  "contentLimits": {
+    "siteName": 30,
+    "name": 24,
+    "roleOrEyebrow": 36,
+    "headline": 48,
+    "summary": 110,
+    "body": 240,
+    "ctaLabel": 24,
+    "shortLabels": {
+      "maxItems": 6,
+      "maxCharsEach": 16
+    },
+    "collectionItems": {
+      "maxItems": 6,
+      "title": 34,
+      "summary": 130
+    },
+    "faq": {
+      "maxItems": 6,
+      "question": 70,
+      "answer": 240
+    }
+  },
+  "assetMappingPolicy": {
+    "method": "semantic-fixed-slots",
+    "rules": [
+      "Map uploads by their stated semantic purpose, never by aesthetic preference.",
+      "Do not invent slot names.",
+      "A slot with css-placeholder fallback must render an inline CSS or SVG placeholder, not a file request.",
+      "Ask one compact confirmation only when multiple uploads have ambiguous purposes."
+    ]
+  },
+  "assetSlots": {
+    "brand-mark": {
+      "path": "assets/brand-mark.svg",
+      "purpose": "Optional brand mark",
+      "required": false,
+      "fallback": null
+    },
+    "hero-primary": {
+      "path": "assets/hero-primary.jpg",
+      "purpose": "Primary hero image, product visual, portrait, or event visual",
+      "ratio": "4:5",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "desaturate", "low-saturation-treatment"]
+    },
+    "hero-secondary": {
+      "path": "assets/hero-secondary.jpg",
+      "purpose": "Optional supporting hero image or artifact",
+      "ratio": "16:10",
+      "required": false,
+      "fallback": null,
+      "allowedProcessing": ["crop", "desaturate"]
+    },
+    "item-1": {
+      "path": "assets/item-1.jpg",
+      "purpose": "First work, product, article, speaker, venue, or content visual",
+      "ratio": "16:10",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "desaturate"]
+    },
+    "item-2": {
+      "path": "assets/item-2.jpg",
+      "purpose": "Second collection visual",
+      "ratio": "16:10",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "desaturate"]
+    },
+    "item-3": {
+      "path": "assets/item-3.jpg",
+      "purpose": "Third collection visual",
+      "ratio": "21:9",
+      "required": false,
+      "fallback": "css-placeholder",
+      "allowedProcessing": ["crop", "desaturate"]
+    },
+    "social-share": {
+      "path": "assets/social-share.jpg",
+      "purpose": "Optional 1200 by 630 social sharing image",
+      "ratio": "40:21",
+      "required": false,
+      "fallback": null
+    },
+    "download": {
+      "path": "assets/download.pdf",
+      "purpose": "Optional real downloadable document",
+      "required": false,
+      "fallback": null
+    }
+  },
+  "lockedDesignRules": [
+    "Keep the split hero, oversized typography, strict whitespace, and flat editorial surfaces.",
+    "Keep floating labels as plain text rather than chips.",
+    "Collections use an index and editorial spreads rather than generic cards.",
+    "Do not add stickers, notebook paper, polaroids, blur, or card shadows.",
+    "Preserve content hierarchy and accessible DOM order at every breakpoint.",
+    "Theme changes cannot reduce WCAG AA contrast."
+  ]
+}
