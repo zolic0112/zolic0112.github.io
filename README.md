@@ -7,11 +7,17 @@ LiamZ 的作品集網站 — 單一 HTML 檔，無建置步驟。
 - `index.html` — 整個網站。CSS 與 JS 全部 inline，直接用瀏覽器打開就能看。
 - `.claude/skills/web-quick-builder/` — 產生這個網站的 Claude Skill。之後要改版時它會自動載入同一套約束（視覺系統、無障礙、SEO、文案規則）。
 
-## 部署（GitHub Pages）
+## 上線順序（不能顛倒）
 
-Settings → Pages → Source 選 `Deploy from a branch`，分支選這個 branch、資料夾選 `/ (root)`，存檔後約一分鐘就會有網址。
+Perxona 的 embed code 要**先有網址才拿得到** —— 後台 STEP 3 會要你填上線網域，API Key 綁死在那個網域上。所以：
 
-上線後記得把 `index.html` 裡兩處 `https://example.com/` 換成真實網址（`<link rel="canonical">` 與 `og:url`），JSON-LD 裡的 `url` 也一起換。
+1. repo 轉 public，並改名為 `zolic0112.github.io`
+2. Settings → Pages → Source 選 `Deploy from a branch`，分支選 `main`、資料夾 `/ (root)`
+3. 等一分鐘，確認 `https://zolic0112.github.io/` 打得開
+4. Perxona 後台：發布 → Web Embed Code → 網域填 `zolic0112.github.io` → Create
+5. 複製 embed code，貼進 `index.html`（見下一節），再 push 一次
+
+**網域一定要跟實際網址完全一致**，差一個字元 avatar 就載不出來。改名成 `zolic0112.github.io` 就是為了讓網址剛好等於後台要的格式，不會有專案頁路徑的問題。
 
 ## 活動當天：接上 Perxona avatar
 
