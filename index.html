@@ -162,9 +162,7 @@ h1, h2, h3 { text-wrap: balance; }
 .avatar-stage iframe,
 .avatar-stage canvas { width: 100%; height: 100%; border: 0; display: block; }
 
-/* No placeholder art here on purpose. If bubble mode floats the widget to
-   a corner instead of filling this card, the card needs real content —
-   that's a layout decision, not something to paper over with a stand-in. */
+/* The gradient below is only ever seen while the widget loads. */
 
 /* ---------- generic section ---------- */
 .band { padding: clamp(72px, 10vw, 132px) 0 0; }
@@ -294,15 +292,14 @@ h1, h2, h3 { text-wrap: balance; }
          PERXONA AVATAR (embed step 2; the loader is in <head>).
          apiKey is a public client-side key — Perxona scopes it to the
          registered domain, which is what makes it safe to ship here.
-         presentationMode="bubble" may float the widget to a corner of the
-         viewport rather than filling this card; the card carries its own
-         backdrop so it still reads as intentional if that happens.
+         presentationMode="embedded" keeps the avatar inside this card;
+         "bubble" would float it to a corner of the viewport instead.
          ───────────────────────────────────────────────────────────── -->
     <div class="card c-avatar" id="avatar">
       <div class="avatar-stage" id="perxona-mount">
         <sv-agent
           agentProfileId="01KZTWPCN0ABMPNVG6CSX9XZND"
-          presentationMode="bubble"
+          presentationMode="embedded"
           apiKey="acf05bc8-151f-4b8f-9906-2123e461f8c1"
         ></sv-agent>
       </div>
